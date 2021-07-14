@@ -29,10 +29,9 @@ public class ServerThread extends Thread{
     {
         boolean user = false;
         String date=LocalDateTime.now().toString(); String internet= sock.getInetAddress().toString(); int port = sock.getPort();String output = ""; String name="";
-        String outLine = ("New Connection: Date / Time: " + date +" Internet Addresss: " + internet + " Port#: "+ port + "\n" +
-                "Welcome to Enigma!  Please enter your Name: ");
+        String outLine = ("New Connection: Date / Time: " + date +" Internet Addresss: " + internet + " Port#: "+ port + "\nWelcome to Enigma!  Please enter your Name: ");
         String intruder = "Intruder Detected and deflected!";
-        String authorized = "Authorized User Granted Access.";
+        String authorized = "Authorized User Granted Access.\n";
         writeSock.println(outLine);
         System.out.println(outLine);
         logWrite.println(outLine);
