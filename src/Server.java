@@ -15,12 +15,11 @@ public class Server {
         PrintWriter writeSock = null;
         try {
             ServerSocket servSock = new ServerSocket(portNum);
-            writeSock = new PrintWriter(new FileOutputStream("prog2.log"), true);
+            writeSock = new PrintWriter(new FileOutputStream("Enigma.log"), true);
 
             while (true) {
                 Socket sock = servSock.accept();
                 ServerThread servThread = new ServerThread(sock, writeSock);
-                //servThread.run();
                 servThread.start();
 
             }

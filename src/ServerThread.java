@@ -27,13 +27,33 @@ public class ServerThread extends Thread{
 
     public void run()
     {
-        String date=LocalDateTime.now().toString(); String internet= sock.getInetAddress().toString(); int port = sock.getPort();String output = "";
-        String outLine = ("New Connection: Date / Time: " + date +" Internet Addresss: " + internet + " Port#: "+ port);
+        boolean user = false;
+        String date=LocalDateTime.now().toString(); String internet= sock.getInetAddress().toString(); int port = sock.getPort();String output = ""; String name="";
+        String outLine = ("New Connection: Date / Time: " + date +" Internet Addresss: " + internet + " Port#: "+ port + "\n" +
+                "Welcome to Enigma!  Please enter your Name: ");
+        String intruder = "Intruder Detected and deflected!";
+        String authorized = "Authorized User Granted Access.";
         writeSock.println(outLine);
-        writeSock.flush();
         System.out.println(outLine);
         logWrite.println(outLine);
 
+        while(!user) {
+            try {
+                name = readSock.readLine();
+            } catch (IOException except) {
+                writeSock.println("Exception: " + except);
+                logWrite.println("Exception: " + except);
+            }
+
+            if (name.toLowerCase().equals("Rob") || name.toLowerCase().equals("Bond")) {
+                logWrite.println(intruder);
+                writeSock.println(intruder);
+            } else {
+                logWrite.println(authorized);
+                writeSock.println(authorized);
+                user= true;
+            }
+        }
         boolean quitTime = false;
         while( !quitTime )
         {
@@ -45,8 +65,20 @@ public class ServerThread extends Thread{
                 String check = inLine.toLowerCase();
                 if (check.equals("hello"))
                 {
-                    writeSock.println("Hello and Welcome. Please enter your text!");
-                    writeSock.flush();
+                    writeSock.println( "Welcome to Enigma. To customize your cipher please enter shift 1:");
+                    int c1 = Integer.parseInt(readSock.readLine());
+                    writeSock.println( "Welcome to Enigma. To customize your cipher please enter shift 1:");
+                    int c2 = Integer.parseInt(readSock.readLine());
+                    logWrite.println("Cipher Shift 1: " + c1 + ", Cipher Shift 2: " + c2);
+
+                    while(!quitTime)
+                    {
+                        writeSock.println("Enter Text:");
+                        String textSwap = readSock.readLine();
+                        output = (enigma.cipher(textSwap,c1,c2));
+                        writeSock.println(output);
+                        System.out.println(output);
+                    }
                 }
                 if( check.equals("quit"))
                 {
